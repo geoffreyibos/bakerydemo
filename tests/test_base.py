@@ -44,12 +44,12 @@ class FooterTextModelTests(TestCase):
 
     def test_footer_text_get_preview_template(self):
         footer_text = FooterText.objects.create(body="Test Footer Text")
-        request = None  # Mock request if needed
+        request = None 
         self.assertEqual(footer_text.get_preview_template(request, ""), "base.html")
 
     def test_footer_text_get_preview_context(self):
         footer_text = FooterText.objects.create(body="Test Footer Text")
-        request = None  # Mock request if needed
+        request = None
         context = footer_text.get_preview_context(request, "")
         self.assertEqual(context["footer_text"], "Test Footer Text")
 
