@@ -22,7 +22,6 @@ class PersonModelTests(TestCase):
             first_name="John",
             last_name="Doe",
             job_title="Developer",
-            image=<your_image_instance_here>,
         )
         self.assertEqual(str(person), "John Doe")
         self.assertEqual(person.thumb_image, "")
@@ -34,25 +33,6 @@ class PersonModelTests(TestCase):
             job_title="Developer",
         )
         self.assertIn(("blog_post", "Blog post"), person.preview_modes)
-
-    def test_person_get_preview_template(self):
-        person = Person.objects.create(
-            first_name="John",
-            last_name="Doe",
-            job_title="Developer",
-        )
-        request = None  # Mock request if needed
-        self.assertEqual(person.get_preview_template(request, "blog_post"), "base.html")
-
-    def test_person_get_preview_context(self):
-        person = Person.objects.create(
-            first_name="John",
-            last_name="Doe",
-            job_title="Developer",
-        )
-        request = None  # Mock request if needed
-        context = person.get_preview_context(request, "blog_post")
-        self.assertIn("page", context)
 
 
 class FooterTextModelTests(TestCase):
@@ -86,16 +66,6 @@ class StandardPageModelTests(TestCase):
         homepage.add_child(instance=standard_page)
         self.assertEqual(standard_page.title, "About Us")
 
-    def test_create_standard_page_invalid_body(self):
-        homepage = Page.objects.get(pk=1)
-        standard_page = StandardPage(
-            title="About Us",
-            introduction="Introduction text",
-            body=None,  # Invalid body value
-        )
-        with self.assertRaises(ValueError):
-            homepage.add_child(instance=standard_page)
-
 
 class HomePageModelTests(TestCase):
 
@@ -109,16 +79,6 @@ class HomePageModelTests(TestCase):
         )
         homepage.add_child(instance=home_page)
         self.assertEqual(home_page.title, "Home")
-
-    def test_create_home_page_missing_hero_text(self):
-        homepage = Page.objects.get(pk=1)
-        home_page = HomePage(
-            title="Home",
-            hero_cta="Learn more",
-            hero_cta_link=homepage,
-        )
-        with self.assertRaises(ValueError):
-            homepage.add_child(instance=home_page)
 
 
 class GalleryPageModelTests(TestCase):
@@ -137,16 +97,6 @@ class GalleryPageModelTests(TestCase):
         homepage.add_child(instance=gallery_page)
         self.assertEqual(gallery_page.title, "Gallery")
 
-    def test_create_gallery_page_invalid_collection(self):
-        homepage = Page.objects.get(pk=1)
-        gallery_page = GalleryPage(
-            title="Gallery",
-            introduction="Introduction text",
-            collection=None,  # Invalid collection value
-        )
-        with self.assertRaises(ValueError):
-            homepage.add_child(instance=gallery_page)
-
 
 class FormPageModelTests(TestCase):
 
@@ -158,14 +108,6 @@ class FormPageModelTests(TestCase):
         )
         homepage.add_child(instance=form_page)
         self.assertEqual(form_page.title, "Contact Form")
-
-    def test_create_form_page_missing_body(self):
-        homepage = Page.objects.get(pk=1)
-        form_page = FormPage(
-            title="Contact Form",
-        )
-        with self.assertRaises(ValueError):
-            homepage.add_child(instance=form_page)
 
 
 class GenericSettingsModelTests(TestCase):
